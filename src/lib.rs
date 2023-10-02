@@ -73,7 +73,9 @@ impl Universe {
                     (Cell::Alive,x) if x < 2 => Cell::Dead,
                     // Rule 2 : any live cell with 2 or 3 live neighbours will live
                     (Cell::Alive, x) if (x == 2 || x == 3) => Cell::Alive,
-                    // Rule 3 : any dead cell with 3 live neighbours will live
+                    // Rule 3 : any live cell with more than three live neighbours will die
+                    (Cell::Alive,x) if x > 3 => Cell::Dead,
+                    // Rule 4 : any dead cell with 3 live neighbours will live
                     (Cell::Dead,3) => Cell::Alive,
                     // All other cells will remain the same state
                     (otherwise,_) => otherwise,
