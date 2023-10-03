@@ -26,14 +26,15 @@ const renderLoop = () => {
     requestAnimationFrame(renderLoop);
 };
 
+// 画格子线
 const drawGrid = () => {
     context.beginPath();
     context.strokeStyle = GRID_COLOR;
 
     // Vertical lines.
     for (let i = 0; i <= width; i++) {
-        context.moveTo(i * (CELL_SIZE + 1) + 1, 0);
-        context.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
+        context.moveTo(i * (CELL_SIZE + 1) + 1, 0); // 起点
+        context.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1); // 终点
     }
 
     // Horizontal lines.
@@ -50,16 +51,18 @@ const getIndex = (row, column) => {
     return row * width + column;
 };
 
+// 画细胞
 const drawCells = () => {
     const cellPtr = universe.cells();
     const cells = new Uint8Array(memory.buffer, cellPtr, width * height);
+    //  starts a new path by emptying the list of sub-paths
     context.beginPath();
 
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
             const idx = getIndex(row, col);
 
-            context.fillStyle = cells[idx] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR;
+            context.fillStyle = cells[idx] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR; // 根据细胞状态上色
             context.fillRect(col * (CELL_SIZE + 1) + 1,
                 row * (CELL_SIZE + 1) + 1,
                 CELL_SIZE,
