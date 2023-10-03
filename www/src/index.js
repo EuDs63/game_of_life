@@ -19,7 +19,7 @@ const renderLoop = () => {
     renderer.drawCells();
 
     const tickControl = document.querySelector("#tick-control");
-    for (let i =0;i<tickControl.value;i++){
+    for (let i = 0; i < tickControl.value; i++) {
         universe.tick();
     }
 
@@ -48,11 +48,30 @@ play_control.button.addEventListener("click", _event => {
 
 // 获取刷新按钮
 const fresh_button = document.getElementById('refresh');
-fresh_button.addEventListener('click', _ =>{
-    universe = Universe.new();
+fresh_button.addEventListener('click', _ => {
+    universe.refresh();
+    fresh_button.textContent = "✅";
     cancelAnimationFrame(animationId);
-    animationId = 0;
+    animationId = -1;
     start();
+
+    setTimeout(() => {
+        fresh_button.textContent = "🔁";
+    }, 1000);
+})
+
+// 获取清空按钮
+const clear_button = document.getElementById('clear');
+clear_button.addEventListener('click', _ =>{
+    universe.clear();
+    clear_button.textContent = "✅";
+    cancelAnimationFrame(animationId);
+    renderer.drawGrid();
+    renderer.drawCells();   animationId = -1;
+
+    setTimeout(() => {
+        clear_button.textContent = "🧹";
+    }, 1000);
 })
 
 

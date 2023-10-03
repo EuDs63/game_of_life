@@ -72,7 +72,7 @@ export class Canvas {
 
         if (this.lastGrid.row !== row || this.lastGrid.col !== col) {
             this.universe.toggle_cell(row, col);
-            this.render();
+            // this.render();
             this.lastGrid = { row, col };
         }
     }

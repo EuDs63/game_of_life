@@ -70,7 +70,7 @@ impl Universe {
     }
 
     /// random generate cells
-    fn random_generate_cells(&self,width,height) -> &[Cell] {
+    fn random_generate_cells(width:u32,height:u32) -> Vec<Cell> {
         (0..width*height).map(|_| {
             let number = js_sys::Math::random();
             if js_sys::Math::random() < number {
@@ -125,20 +125,22 @@ impl Universe {
         let width = 64;
         let height  = 64;
 
-        let cells = self.random_generate_cells(width,height);
-        // let cells = (0..width*height).map(|i| {
-        //     let number = js_sys::Math::random();
-        //     if js_sys::Math::random() < number {
-        //         Cell::Alive
-        //     } else {
-        //         Cell::Dead
-        //     }
-            
-        // }).collect();
+        let cells = Universe::random_generate_cells(width, height);
+
         log!("create a new universe which is {} * {}",width,height);
         Universe { width: width, height: height, cells: cells }        
     }
    
+    /// 随机生成cells
+    pub fn refresh(&mut self) {
+        self.cells = Universe::random_generate_cells(self.width,self.height);
+    }
+
+    /// 将所有cell的状态全部置为dead
+    pub fn clear(&mut self){
+        self.cells = (0..self.height * self.width).map(|_| Cell::Dead).collect();
+    }
+
     /// render the universe
     pub fn render(&self) -> String {
         self.to_string()
