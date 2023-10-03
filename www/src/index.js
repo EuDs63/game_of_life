@@ -1,5 +1,7 @@
 import { Universe, Cell } from "wasm-game-of-life";
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
+import * as logic from "./logic.js";
+import * as rendering from "./rendering.js";
 
 // some constants that we will use when rendering to the canvas
 const CELL_SIZE = 5; // px
@@ -23,59 +25,12 @@ let animationId = null;
 
 const renderLoop = () => {
     //debugger;
-    drawGrid();
-    drawCells();
+    rendering.drawGrid(context,width,height);
+    rendering.drawCells(context,universe,width,height);
 
     universe.tick();
     animationId = requestAnimationFrame(renderLoop);
 };
-
-// 画格子线
-const drawGrid = () => {
-    context.beginPath();
-    context.strokeStyle = GRID_COLOR;
-
-    // Vertical lines.
-    for (let i = 0; i <= width; i++) {
-        context.moveTo(i * (CELL_SIZE + 1) + 1, 0); // 起点
-        context.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1); // 终点
-    }
-
-    // Horizontal lines.
-    for (let j = 0; j <= height; j++) {
-        context.moveTo(0, j * (CELL_SIZE + 1) + 1);
-        context.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
-    }
-
-    context.stroke();
-}
-
-// 由行号、列号得到index
-const getIndex = (row, column) => {
-    return row * width + column;
-};
-
-// 画细胞
-const drawCells = () => {
-    const cellPtr = universe.cells();
-    const cells = new Uint8Array(memory.buffer, cellPtr, width * height);
-    //  starts a new path by emptying the list of sub-paths
-    context.beginPath();
-
-    for (let row = 0; row < height; row++) {
-        for (let col = 0; col < width; col++) {
-            const idx = getIndex(row, col);
-
-            context.fillStyle = cells[idx] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR; // 根据细胞状态上色
-            context.fillRect(col * (CELL_SIZE + 1) + 1,
-                row * (CELL_SIZE + 1) + 1,
-                CELL_SIZE,
-                CELL_SIZE
-            );
-        }
-        context.stroke();
-    }
-}
 
 const isPaused = () => {
     return animationId === null;
@@ -106,8 +61,10 @@ playPauseButton.addEventListener("click", _event => {
     }
 });
 
-drawGrid();
-drawCells();
+// drawGrid();
+// drawCells();
+rendering.drawGrid(context, width, height);
+rendering.drawCells(context, universe, width, height);
 //requestAnimationFrame(renderLoop);
 play();
 
