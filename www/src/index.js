@@ -38,7 +38,7 @@ const start = () => {
     renderLoop();
 };
 
-play_control.button.addEventListener("click", _event => {
+play_control.button.addEventListener("click", _ => {
     if (play_control.is_paused(animationId)) {
         start();
     } else {
@@ -51,24 +51,22 @@ const fresh_button = document.getElementById('refresh');
 fresh_button.addEventListener('click', _ => {
     universe.refresh();
     fresh_button.textContent = "✅";
-    cancelAnimationFrame(animationId);
-    animationId = -1;
     start();
-
     setTimeout(() => {
         fresh_button.textContent = "🔁";
     }, 1000);
 })
 
-// 获取清空按钮
+// 获取清空按
+// bug: 如果当前状态为play时，清楚后无法点击，为pause时，正常
 const clear_button = document.getElementById('clear');
 clear_button.addEventListener('click', _ =>{
+    animationId = play_control.pause(animationId);
     universe.clear();
-    clear_button.textContent = "✅";
-    cancelAnimationFrame(animationId);
     renderer.drawGrid();
-    renderer.drawCells();   animationId = -1;
-
+    renderer.drawCells(); 
+    
+    clear_button.textContent = "✅";
     setTimeout(() => {
         clear_button.textContent = "🧹";
     }, 1000);
