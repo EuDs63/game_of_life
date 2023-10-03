@@ -1,7 +1,6 @@
 import { Universe, Cell } from "wasm-game-of-life";
 import * as logic from "./logic.js";
-import { Renderer } from "./renderer.js"; 
-
+import { Renderer,CELL_SIZE } from "./renderer.js"; 
 
 // construct the universe 
 const universe = Universe.new();
@@ -15,6 +14,8 @@ const CELL_SIZE = renderer.CELL_SIZE;
 
 // give the canvas room for all of the cells and a 1px border around each of them
 const canvas = document.getElementById("game-of-life-canvas");
+
+// 设置canvas大小
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
 
