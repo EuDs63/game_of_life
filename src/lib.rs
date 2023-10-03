@@ -1,8 +1,9 @@
 mod utils;
 
 use std::fmt;
-extern crate js_sys;
+// extern crate js_sys;
 use wasm_bindgen::prelude::*;
+use utils::*;
 
 #[wasm_bindgen]
 extern "C" {
@@ -94,6 +95,8 @@ impl Universe {
                     // All other cells will remain the same state
                     (otherwise,_) => otherwise,
                 };
+
+                //log!("    it becomes {:?}", next_cell);
                 next[index] = next_cell;
             }
         }
@@ -104,6 +107,9 @@ impl Universe {
 
     /// 新建
     pub fn new() -> Universe {
+        // enable logging for panics
+        set_panic_hook();
+
         let width = 64;
         let height  = 64;
 
@@ -120,7 +126,7 @@ impl Universe {
             //     Cell::Dead
             // }
         }).collect();
-
+        log!("create a new universe which is {} * {}",width,height);
         Universe { width: width, height: height, cells: cells }        
     }
    
