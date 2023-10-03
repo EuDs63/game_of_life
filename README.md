@@ -38,6 +38,7 @@ wasm-pack publish
    [package.metadata.wasm-pack.profile.release]
    wasm-opt = false
    ```
+- [Headless Chrome test fails](https://github.com/rustwasm/wasm-pack/issues/611)
 
 ## 参考
 - [Rust and WebAssembly](https://rustwasm.github.io/docs/book/introduction.html)

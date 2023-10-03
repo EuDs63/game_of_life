@@ -45,7 +45,7 @@ impl Universe {
                 }
 
                 let neighbour_row = (row + delta_row) % self.height;
-                let neightbour_col = (column+delta_row) %self.width;
+                let neightbour_col = (column+delta_col) %self.width;
 
                 let index  = self.get_index(neighbour_row, neightbour_col);
                 count += self.cells[index] as u8;
@@ -101,23 +101,24 @@ impl Universe {
         self.cells = next;
     }
 
+
     /// 新建
     pub fn new() -> Universe {
         let width = 64;
         let height  = 64;
 
         let cells = (0..width*height).map(|i| {
-            // let number = js_sys::Math::random();
-            // if js_sys::Math::random() < number {
-            //     Cell::Alive
-            // } else {
-            //     Cell::Dead
-            // }
-            if i % 3 == 0 || i% 5 == 0{
+            let number = js_sys::Math::random();
+            if js_sys::Math::random() < number {
                 Cell::Alive
-            }else {
+            } else {
                 Cell::Dead
             }
+            // if i % 3 == 0 || i% 5 == 0{
+            //     Cell::Alive
+            // }else {
+            //     Cell::Dead
+            // }
         }).collect();
 
         Universe { width: width, height: height, cells: cells }        
