@@ -14,9 +14,9 @@ export class Play_Pause_Control{
     }
 
     // 暂停
-    // 将animationId置为null，以判断是否暂停
+    // 将animationId置为-1，以判断是否暂停
     pause(animationId) {
-        this.button.textContent = "▶";
+        this.button.textContent = "⏹️";
         cancelAnimationFrame(animationId);
         return -1;
     };

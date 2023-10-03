@@ -18,7 +18,11 @@ const renderLoop = () => {
     renderer.drawGrid();
     renderer.drawCells();
 
-    universe.tick();
+    const tickControl = document.querySelector("#tick-control");
+    for (let i =0;i<tickControl.value;i++){
+        universe.tick();
+    }
+
     animationId = requestAnimationFrame(renderLoop);
 };
 
