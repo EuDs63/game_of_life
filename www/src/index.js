@@ -1,6 +1,7 @@
 import { Universe, Cell } from "wasm-game-of-life";
 import * as logic from "./logic.js";
 import { Renderer,CELL_SIZE } from "./renderer.js"; 
+import { Play_Pause_Control } from "./play_pause_control.js";
 
 // construct the universe 
 const universe = Universe.new();
@@ -20,7 +21,7 @@ canvas.width = (CELL_SIZE + 1) * width + 1;
 
 const context = canvas.getContext('2d');
 
-let animationId = null;
+let animationId = -1;
 
 const renderLoop = () => {
     //debugger;
@@ -31,36 +32,25 @@ const renderLoop = () => {
     animationId = requestAnimationFrame(renderLoop);
 };
 
-const isPaused = () => {
-    return animationId === null;
-}
 
 // 获取按钮
-const playPauseButton  = document.getElementById("play-pause");
+const play_control = new Play_Pause_Control(document.getElementById("play-pause"));
 
 // 开始
-const play = () => {
-    playPauseButton.textContent = "⏸";
+const start = () => {
+    play_control.play();
     renderLoop();
 };
 
-// 暂停
-// 将animationId置为null，以判断是否暂停
-const pause = () => {
-    playPauseButton.textContent = "▶";
-    cancelAnimationFrame(animationId);
-    animationId = null;
-};
-
-playPauseButton.addEventListener("click", _event => {
-    if (isPaused()) {
-        play();
+play_control.button.addEventListener("click", _event => {
+    if (play_control.is_paused(animationId)) {
+        start();
     } else {
-        pause();
+        animationId = play_control.pause(animationId);
     }
 });
 
 renderer.drawGrid(context);
 renderer.drawCells(context, universe);
-play();
+start();
 
