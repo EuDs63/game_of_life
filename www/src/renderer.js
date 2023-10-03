@@ -6,9 +6,9 @@ export const DEAD_COLOR = "#FFFFFF";
 export const ALIVE_COLOR = "#000000";
 
 export class Renderer {
-    constructor(width, height,context,universe) {
-        this.width = width;
-        this.height = height;
+    constructor(context,universe) {
+        this.width = universe.width();
+        this.height = universe.height();
         this.context = context;
         this.universe = universe;
     }
