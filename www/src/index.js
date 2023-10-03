@@ -1,18 +1,17 @@
 import { Universe, Cell } from "wasm-game-of-life";
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 import * as logic from "./logic.js";
-import * as rendering from "./rendering.js";
+import { Renderer } from "./renderer.js"; 
 
 // some constants that we will use when rendering to the canvas
 const CELL_SIZE = 5; // px
-const GRID_COLOR = "#CCCCCC";
-const DEAD_COLOR = "#FFFFFF";
-const ALIVE_COLOR = "#000000";
+
 
 // construct the universe 
 const universe = Universe.new();
 const width = universe.width();
 const height = universe.height();
+const renderer = new Renderer(width,height);
 
 // give the canvas room for all of the cells and a 1px border around each of them
 const canvas = document.getElementById("game-of-life-canvas");
@@ -25,8 +24,8 @@ let animationId = null;
 
 const renderLoop = () => {
     //debugger;
-    rendering.drawGrid(context,width,height);
-    rendering.drawCells(context,universe,width,height);
+    renderer.drawGrid(context,width,height);
+    renderer.drawCells(context,universe,width,height);
 
     universe.tick();
     animationId = requestAnimationFrame(renderLoop);
@@ -61,10 +60,7 @@ playPauseButton.addEventListener("click", _event => {
     }
 });
 
-// drawGrid();
-// drawCells();
-rendering.drawGrid(context, width, height);
-rendering.drawCells(context, universe, width, height);
-//requestAnimationFrame(renderLoop);
+renderer.drawGrid(context, width, height);
+renderer.drawCells(context, universe, width, height);
 play();
 
