@@ -2,17 +2,16 @@ import { Universe, Cell } from "wasm-game-of-life";
 import * as logic from "./logic.js";
 import { Renderer } from "./renderer.js"; 
 
-// some constants that we will use when rendering to the canvas
-const CELL_SIZE = 5; // px
-
 
 // construct the universe 
 const universe = Universe.new();
 const width = universe.width();
 const height = universe.height();
 
-// 负责绘制的渲染器
+// 构造负责绘制的渲染器
 const renderer = new Renderer(width,height);
+
+const CELL_SIZE = renderer.CELL_SIZE;
 
 // give the canvas room for all of the cells and a 1px border around each of them
 const canvas = document.getElementById("game-of-life-canvas");
@@ -25,8 +24,8 @@ let animationId = null;
 
 const renderLoop = () => {
     //debugger;
-    renderer.drawGrid(context,width,height);
-    renderer.drawCells(context,universe,width,height);
+    renderer.drawGrid(context);
+    renderer.drawCells(context,universe);
 
     universe.tick();
     animationId = requestAnimationFrame(renderLoop);
@@ -61,7 +60,7 @@ playPauseButton.addEventListener("click", _event => {
     }
 });
 
-renderer.drawGrid(context, width, height);
-renderer.drawCells(context, universe, width, height);
+renderer.drawGrid(context);
+renderer.drawCells(context, universe);
 play();
 
