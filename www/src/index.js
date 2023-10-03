@@ -10,7 +10,6 @@ const height = universe.height();
 // 构造负责绘制的渲染器
 const renderer = new Renderer(width,height);
 
-const CELL_SIZE = renderer.CELL_SIZE;
 
 // give the canvas room for all of the cells and a 1px border around each of them
 const canvas = document.getElementById("game-of-life-canvas");
