@@ -5,28 +5,26 @@ export class Canvas {
         this.universe = universe;
         this.width = universe.width();
         this.height = universe.height();
-
         this.canvas = document.getElementById("game-of-life-canvas");
-        this.canvas.height = (CELL_SIZE + 1) * this.height + 1;
-        this.canvas.width = (CELL_SIZE + 1) * this.width + 1;
-
         this.context = this.canvas.getContext('2d');
-
-        // bind -> 绑定事件回调函数的 this 指向
-        this.canvas.addEventListener('click', this.handleClick.bind(this));
-
         this.renderer = new Renderer(this.context, universe);
-
         this.isMouseDown = false;
         this.lastGrid = { row: -1, col: -1 };
 
-        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
-        this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
-        this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+        this.init();
+           
     }
 
     init(){
+        this.canvas.height = (CELL_SIZE + 1) * this.height + 1;
+        this.canvas.width = (CELL_SIZE + 1) * this.width + 1;
         
+        // bind -> 绑定事件回调函数的 this 指向
+        this.canvas.addEventListener('click', this.handleClick.bind(this));
+        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
+        this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+        this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+
     }
 
     // 根据点击位置得到对应row和col
