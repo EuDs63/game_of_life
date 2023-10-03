@@ -16,9 +16,22 @@ export class Canvas {
         this.canvas.addEventListener('click', this.handleClick.bind(this));
 
         this.renderer = new Renderer(this.context, universe);
+
+        this.isMouseDown = false;
+        this.lastGrid = { row: -1, col: -1 };
+
+        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
+        this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+        this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
     }
 
-    handleClick(e) {
+    init(){
+        
+    }
+
+    // 根据点击位置得到对应row和col
+    // 比例应该是固定的，不需要重复计算。
+    getGridRowAndCol(e){
         // 获取 canvas 边界框信息
         const boundingRect = this.canvas.getBoundingClientRect();
 
@@ -34,6 +47,11 @@ export class Canvas {
         const row = Math.max(Math.floor(canvasTop / (CELL_SIZE + 1)), 0);
         const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), this.width - 1);
 
+        return {row,col};
+    }
+
+    handleClick(e) {
+        const {row,col} = this.getGridRowAndCol(e);
         // 切换单元格状态
         this.universe.toggle_cell(row, col);
 
@@ -41,5 +59,23 @@ export class Canvas {
         this.renderer.drawCells();
     }
 
-    // 其他canvas相关方法
+    handleMouseDown() {
+        this.isMouseDown = true;
+    }
+
+    handleMouseUp() {
+        this.isMouseDown = false;
+    }
+
+    handleMouseMove(e) {
+        if (!this.isMouseDown) return;
+
+        const { row, col } = this.getGridRowAndCol(e);
+
+        if (this.lastGrid.row !== row || this.lastGrid.col !== col) {
+            this.universe.toggle_cell(row, col);
+            this.render();
+            this.lastGrid = { row, col };
+        }
+    }
 }
