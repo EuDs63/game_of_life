@@ -1,6 +1,6 @@
 export class Play_Pause_Control{
-    constructor(button){
-        this.button = button;
+    constructor(){
+        this.button = document.getElementById("play-pause");
     }
 
     // 判断是否暂停

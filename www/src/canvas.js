@@ -12,6 +12,7 @@ export class Canvas {
 
         this.context = this.canvas.getContext('2d');
 
+        // bind -> 绑定事件回调函数的 this 指向
         this.canvas.addEventListener('click', this.handleClick.bind(this));
 
         this.renderer = new Renderer(this.context, universe);
