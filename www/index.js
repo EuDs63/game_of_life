@@ -19,12 +19,15 @@ canvas.width = (CELL_SIZE + 1) * width + 1;
 
 const context = canvas.getContext('2d');
 
+let animationId = null;
+
 const renderLoop = () => {
-    debugger;
-    universe.tick();
+    //debugger;
     drawGrid();
     drawCells();
-    requestAnimationFrame(renderLoop);
+
+    universe.tick();
+    animationId = requestAnimationFrame(renderLoop);
 };
 
 // 画格子线
@@ -74,8 +77,37 @@ const drawCells = () => {
     }
 }
 
+const isPaused = () => {
+    return animationId === null;
+}
+
+// 获取按钮
+const playPauseButton  = document.getElementById("play-pause");
+
+// 开始
+const play = () => {
+    playPauseButton.textContent = "⏸";
+    renderLoop();
+};
+
+// 暂停
+// 将animationId置为null，以判断是否暂停
+const pause = () => {
+    playPauseButton.textContent = "▶";
+    cancelAnimationFrame(animationId);
+    animationId = null;
+};
+
+playPauseButton.addEventListener("click", _event => {
+    if (isPaused()) {
+        play();
+    } else {
+        pause();
+    }
+});
+
 drawGrid();
 drawCells();
-requestAnimationFrame(renderLoop);
-
+//requestAnimationFrame(renderLoop);
+play();
 
