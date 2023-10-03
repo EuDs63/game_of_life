@@ -1,5 +1,4 @@
 import { Universe, Cell } from "wasm-game-of-life";
-import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 import * as logic from "./logic.js";
 import { Renderer } from "./renderer.js"; 
 
@@ -11,6 +10,8 @@ const CELL_SIZE = 5; // px
 const universe = Universe.new();
 const width = universe.width();
 const height = universe.height();
+
+// 负责绘制的渲染器
 const renderer = new Renderer(width,height);
 
 // give the canvas room for all of the cells and a 1px border around each of them
