@@ -5,15 +5,6 @@ use std::fmt;
 use wasm_bindgen::prelude::*;
 use utils::*;
 
-#[wasm_bindgen]
-extern "C" {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(&format!("Hello, {}",name));
-}
 
 #[wasm_bindgen]
 #[repr(u8)]
@@ -77,6 +68,18 @@ impl Universe {
             self.cells[idx] = Cell::Alive;
         }
     }
+
+    /// random generate cells
+    fn random_generate_cells(&self,width,height) -> &[Cell] {
+        (0..width*height).map(|_| {
+            let number = js_sys::Math::random();
+            if js_sys::Math::random() < number {
+                Cell::Alive
+            } else {
+                Cell::Dead
+            }
+        }).collect()
+    }
 }
 
 /// public methods,exported to JavaScript
@@ -122,19 +125,16 @@ impl Universe {
         let width = 64;
         let height  = 64;
 
-        let cells = (0..width*height).map(|i| {
-            let number = js_sys::Math::random();
-            if js_sys::Math::random() < number {
-                Cell::Alive
-            } else {
-                Cell::Dead
-            }
-            // if i % 3 == 0 || i% 5 == 0{
-            //     Cell::Alive
-            // }else {
-            //     Cell::Dead
-            // }
-        }).collect();
+        let cells = self.random_generate_cells(width,height);
+        // let cells = (0..width*height).map(|i| {
+        //     let number = js_sys::Math::random();
+        //     if js_sys::Math::random() < number {
+        //         Cell::Alive
+        //     } else {
+        //         Cell::Dead
+        //     }
+            
+        // }).collect();
         log!("create a new universe which is {} * {}",width,height);
         Universe { width: width, height: height, cells: cells }        
     }

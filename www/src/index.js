@@ -3,7 +3,7 @@ import { Play_Pause_Control } from "./play_pause_control.js";
 import { Canvas } from "./canvas.js";
 
 // construct the universe 
-const universe = Universe.new();
+let universe = Universe.new();
 
 const canvas = new Canvas(universe);
 
@@ -32,6 +32,8 @@ const play_control = new Play_Pause_Control();
 
 // 开始
 const start = () => {
+    renderer.drawGrid();
+    renderer.drawCells();
     play_control.play();
     renderLoop();
 };
@@ -44,8 +46,16 @@ play_control.button.addEventListener("click", _event => {
     }
 });
 
-renderer.drawGrid();
-renderer.drawCells();
+// 获取刷新按钮
+const fresh_button = document.getElementById('refresh');
+fresh_button.addEventListener('click', _ =>{
+    universe = Universe.new();
+    cancelAnimationFrame(animationId);
+    animationId = 0;
+    start();
+})
+
+
 
 start();
 
