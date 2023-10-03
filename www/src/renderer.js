@@ -6,9 +6,11 @@ export const DEAD_COLOR = "#FFFFFF";
 export const ALIVE_COLOR = "#000000";
 
 export class Renderer {
-    constructor(width, height) {
+    constructor(width, height,context,universe) {
         this.width = width;
         this.height = height;
+        this.context = context;
+        this.universe = universe;
     }
 
     // 由行号、列号得到index
@@ -17,7 +19,9 @@ export class Renderer {
     };
 
     // 绘制网格逻辑
-    drawGrid(context) {
+    drawGrid() {
+        let context = this.context;
+
         context.beginPath();
         context.strokeStyle = GRID_COLOR;
 
@@ -37,9 +41,12 @@ export class Renderer {
     }
 
     // 绘制细胞逻辑  
-    drawCells(context, universe) {
+    drawCells() {
         let width = this.width;
         let height = this.height;
+        let context = this.context;
+        let universe = this.universe;
+
         const cellPtr = universe.cells();
         const cells = new Uint8Array(memory.buffer, cellPtr, width * height);
         //  starts a new path by emptying the list of sub-paths
