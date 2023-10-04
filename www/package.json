@@ -19,7 +19,7 @@
   ],
   "author": "euds63",
   "dependencies": {
-    "wasm-game-of-life-euds63": "^1.0.0"
+    "wasm_game_of_life_euds63": "file:../pkg"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.0",

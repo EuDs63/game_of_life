@@ -1,4 +1,4 @@
-import { Universe } from "wasm-game-of-life-euds63";
+import { Universe } from "wasm_game_of_life_euds63";
 import { Play_Pause_Control } from "./play_pause_control.js";
 import { Canvas } from "./canvas.js";
 import { Fps } from "./fps.js";
