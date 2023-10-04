@@ -1,5 +1,5 @@
-import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
-import { Cell } from "wasm-game-of-life";
+import { memory } from "wasm-game-of-life-euds63/wasm_game_of_life_euds63_bg";
+import { Cell } from "wasm-game-of-life-euds63";
 export const CELL_SIZE = 5;
 export const GRID_COLOR = "#CCCCCC";
 export const DEAD_COLOR = "#FFFFFF";

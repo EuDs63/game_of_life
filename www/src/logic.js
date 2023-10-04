@@ -1,4 +1,4 @@
-import { Universe } from "wasm-game-of-life"; 
+import { Universe } from "wasm-game-of-life-euds63"; 
 
 const universe = Universe.new();
 
