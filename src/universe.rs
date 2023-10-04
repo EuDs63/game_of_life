@@ -8,6 +8,7 @@ pub struct Universe {
     width: u32,
     height: u32,
     cells : Vec<Cell>,
+    another_cells : Vec<Cell>,
 }
 
 impl Universe {
@@ -16,24 +17,80 @@ impl Universe {
         (row * self.width + column) as usize
     }
 
-    ///  get a count of how many of its neighbors are alive
-    fn live_neighbour_count(&self,row:u32,column: u32) -> u8{
-        let mut count = 0;
-        for delta_row in [self.height-1,0,1].iter().cloned(){
-            for delta_col in [self.width-1,0,1].iter().cloned(){
-                if delta_row == 0 && delta_col == 0{
-                    continue; // 跳过自身
-                }
+    /// get a count of how many of its neighbors are alive
+    /// use modulo can avoid cluttering up the code with if 
+    /// however we will pay for the unnecessary div instruction in the common case
+    /// so we still use if
+    // fn live_neighbour_count(&self,row:u32,column: u32) -> u8{
+    //     let mut count = 0;
+    //     for delta_row in [self.height-1,0,1].iter().cloned(){
+    //         for delta_col in [self.width-1,0,1].iter().cloned(){
+    //             if delta_row == 0 && delta_col == 0{
+    //                 continue; // 跳过自身
+    //             }
 
-                let neighbour_row = (row + delta_row) % self.height;
-                let neightbour_col = (column+delta_col) %self.width;
+    //             let neighbour_row = (row + delta_row) % self.height;
+    //             let neightbour_col = (column+delta_col) %self.width;
 
-                let index  = self.get_index(neighbour_row, neightbour_col);
-                count += self.cells[index] as u8;
-            }
-        }
-        count
-    }
+    //             let index  = self.get_index(neighbour_row, neightbour_col);
+    //             count += self.cells[index] as u8;
+    //         }
+    //     }
+    //     count
+    // }
+    fn live_neighbour_count(&self, row: u32, column: u32) -> u8 {
+    let mut count = 0;
+
+    let north = if row == 0 {
+        self.height - 1
+    } else {
+        row - 1
+    };
+
+    let south = if row == self.height - 1 {
+        0
+    } else {
+        row + 1
+    };
+
+    let west = if column == 0 {
+        self.width - 1
+    } else {
+        column - 1
+    };
+
+    let east = if column == self.width - 1 {
+        0
+    } else {
+        column + 1
+    };
+
+    let nw = self.get_index(north, west);
+    count += self.cells[nw] as u8;
+
+    let n = self.get_index(north, column);
+    count += self.cells[n] as u8;
+
+    let ne = self.get_index(north, east);
+    count += self.cells[ne] as u8;
+
+    let w = self.get_index(row, west);
+    count += self.cells[w] as u8;
+
+    let e = self.get_index(row, east);
+    count += self.cells[e] as u8;
+
+    let sw = self.get_index(south, west);
+    count += self.cells[sw] as u8;
+
+    let s = self.get_index(south, column);
+    count += self.cells[s] as u8;
+
+    let se = self.get_index(south, east);
+    count += self.cells[se] as u8;
+
+    count
+}
 
     /// get the dead and alive values of the entire universe
     pub fn get_cells(&self) -> &[Cell] {
@@ -69,7 +126,7 @@ impl Universe {
     pub fn tick(&mut self){
         let _timer = crate::timer::Timer::new("Universe::tick");
 
-        let mut next = self.cells.clone();
+        //let mut next = self.cells.clone();
 
         for row in 0..self.height{
             for column in 0..self.width{
@@ -90,12 +147,11 @@ impl Universe {
                     (otherwise,_) => otherwise,
                 };
 
-                //log!("    it becomes {:?}", next_cell);
-                next[index] = next_cell;
+                self.another_cells[index] = next_cell;
             }
         }
 
-        self.cells = next;
+        self.cells = self.another_cells.clone();
     }
 
 
@@ -108,9 +164,10 @@ impl Universe {
         let height  = 64;
 
         let cells = Universe::random_generate_cells(width, height);
+        let another_cells = cells.clone();
 
         log!("create a new universe which is {} * {}",width,height);
-        Universe { width: width, height: height, cells: cells }        
+        Universe { width, height, cells,another_cells }        
     }
    
     /// 随机生成cells
