@@ -46,7 +46,15 @@ wasm-pack publish
    2. 在其他模块中使用
       ```Rust
       // lib.rs
-      utils::log!("hello,{}",name);
+      #[macro_use]
+      mod utils;
+
+      mod universe;
+
+      // universe.rs
+      use crate::utils;
+      // 直接使用
+      log!("This is a log message: {}", some_variable);
       ```
 
 
