@@ -3,7 +3,7 @@
 ## About
 a project to learn Rust
 
-## Usage
+## Local Usage
 
 ### Clone this Template
 
@@ -11,7 +11,26 @@ a project to learn Rust
 git clone https://github.com/EuDs63/game_of_life.git
 ```
 
-### Build with `wasm-pack build`
+### Install Dependency
+
+```
+cd www
+npm install
+```
+
+### Run
+
+```
+npm run start
+```
+
+### Modify codes about Rust (optional)
+
+```
+git checkout prod 
+# make some change
+wasm-pack build 
+```
 
 ```
 wasm-pack build
@@ -81,7 +100,8 @@ wasm-pack build
 - [ ] 修复bug: 暂停后的第一次修改cell状态，会进行下一次tick
 - [ ] Replace the 2D canvas renderer with a [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) renderer to get a better performance.
 - [ ] 美化界面
-- [ ] 参考[shalzz/wasm-game-of-life: Game of Life implementation using Rust, Javascript and WebAssembly!](https://github.com/shalzz/wasm-game-of-life)进行部署
+- [x] 部署至vercel
+- [ ] 修改domain
 
 ## 参考
 - [Rust and WebAssembly](https://rustwasm.github.io/docs/book/introduction.html)
