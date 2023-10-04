@@ -6,7 +6,7 @@ export const DEAD_COLOR = "#FFFFFF";
 export const ALIVE_COLOR = "#000000";
 
 export class Renderer {
-    constructor(context,universe) {
+    constructor(context, universe) {
         this.width = universe.width();
         this.height = universe.height();
         this.context = context;
@@ -52,19 +52,50 @@ export class Renderer {
         //  starts a new path by emptying the list of sub-paths
         context.beginPath();
 
+        // 每次循环都要设置一次fillstyle会影响性能
+        // for (let row = 0; row < height; row++) {
+        //     for (let col = 0; col < width; col++) {
+        //         const idx = this.getIndex(row, col, width, height);
+
+        //         context.fillStyle = cells[idx] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR; // 根据细胞状态上色
+        //         context.fillRect(col * (CELL_SIZE + 1) + 1,
+        //             row * (CELL_SIZE + 1) + 1,
+        //             CELL_SIZE,
+        //             CELL_SIZE
+        //         );
+        //     }
+        //     context.stroke();
+        // }
+        context.fillStyle = ALIVE_COLOR;
         for (let row = 0; row < height; row++) {
             for (let col = 0; col < width; col++) {
                 const idx = this.getIndex(row, col, width, height);
+                if (cells[idx] !== Cell.Alive)
+                    continue;
 
-                context.fillStyle = cells[idx] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR; // 根据细胞状态上色
                 context.fillRect(col * (CELL_SIZE + 1) + 1,
                     row * (CELL_SIZE + 1) + 1,
                     CELL_SIZE,
                     CELL_SIZE
                 );
             }
-            context.stroke();
         }
+
+        context.fillStyle = DEAD_COLOR;
+        for (let row = 0; row < height; row++) {
+            for (let col = 0; col < width; col++) {
+                const idx = this.getIndex(row, col, width, height);
+                if (cells[idx] !== Cell.Dead)
+                    continue;
+
+                context.fillRect(col * (CELL_SIZE + 1) + 1,
+                    row * (CELL_SIZE + 1) + 1,
+                    CELL_SIZE,
+                    CELL_SIZE
+                );
+            }
+        }
+        context.stroke;
     }
 }
 
