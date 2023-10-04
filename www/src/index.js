@@ -1,7 +1,7 @@
 import { Universe } from "wasm-game-of-life";
 import { Play_Pause_Control } from "./play_pause_control.js";
 import { Canvas } from "./canvas.js";
-
+import { Fps } from "./fps.js";
 // construct the universe 
 let universe = Universe.new();
 
@@ -11,9 +11,13 @@ const canvas = new Canvas(universe);
 // 构造负责绘制的渲染器
 const renderer = canvas.renderer;
 
+// fps
+const fps = new Fps();
+
 let animationId = -1;
 
 const renderLoop = () => {
+    fps.render();
     //debugger;
     renderer.drawGrid();
     renderer.drawCells();
