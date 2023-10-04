@@ -124,7 +124,7 @@ impl Universe {
 impl Universe {
     /// 得到下一次tick的状态
     pub fn tick(&mut self){
-        let _timer = crate::timer::Timer::new("Universe::tick");
+        //let _timer = crate::timer::Timer::new("Universe::tick");
 
         //let mut next = self.cells.clone();
 
