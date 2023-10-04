@@ -215,7 +215,13 @@ impl Universe {
 
     pub fn toggle_cell(&mut self,row: u32,column:u32){
         let idx = self.get_index(row,column);
+        //self.cells = self.another_cells.clone();
         self.cells[idx].toggle();
+    }
+
+    /// 暂停时，将cells置回上一次
+    pub fn execute_pause(&mut self){
+        self.cells = self.another_cells.clone();
     }
 }
 

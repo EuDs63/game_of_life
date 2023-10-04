@@ -66,6 +66,7 @@ export class Renderer {
         //     }
         //     context.stroke();
         // }
+        // 使用两次循环，可以只要设置两次
         context.fillStyle = ALIVE_COLOR;
         for (let row = 0; row < height; row++) {
             for (let col = 0; col < width; col++) {

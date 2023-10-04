@@ -48,12 +48,13 @@ export class Canvas {
         return {row,col};
     }
 
+    // 发现bug: 暂停后修改cell状态后，会使得进行下一次tick
     handleClick(e) {
         const {row,col} = this.getGridRowAndCol(e);
         // 切换单元格状态
         this.universe.toggle_cell(row, col);
 
-        this.renderer.drawGrid();
+        // this.renderer.drawGrid();
         this.renderer.drawCells();
     }
 

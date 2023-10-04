@@ -46,6 +46,7 @@ play_control.button.addEventListener("click", _ => {
     if (play_control.is_paused(animationId)) {
         start();
     } else {
+        universe.execute_pause();
         animationId = play_control.pause(animationId);
     }
 });
