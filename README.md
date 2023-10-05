@@ -27,7 +27,7 @@ npm run start
 ### Modify codes about Rust (optional)
 
 ```
-git checkout prod 
+git checkout develop 
 # make some change
 wasm-pack build 
 ```
