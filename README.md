@@ -99,7 +99,7 @@ wasm-pack build
 ## 待办
 - [ ] 修复bug: 暂停后的第一次修改cell状态，会进行下一次tick
 - [ ] Replace the 2D canvas renderer with a [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) renderer to get a better performance.
-- [ ] 美化界面
+- [x] 美化界面
 - [x] 部署至vercel
 - [x] 修改domain为[https://lifegame.ds63.eu.org/](https://lifegame.ds63.eu.org/)
 
