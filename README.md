@@ -27,7 +27,7 @@ npm run start
 ### Modify codes about Rust (optional)
 
 ```
-git checkout prod 
+git checkout develop 
 # make some change
 wasm-pack build 
 ```
@@ -101,7 +101,7 @@ wasm-pack build
 - [ ] Replace the 2D canvas renderer with a [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) renderer to get a better performance.
 - [ ] 美化界面
 - [x] 部署至vercel
-- [ ] 修改domain
+- [x] 修改domain为[https://lifegame.ds63.eu.org/](https://lifegame.ds63.eu.org/)
 
 ## 参考
 - [Rust and WebAssembly](https://rustwasm.github.io/docs/book/introduction.html)
